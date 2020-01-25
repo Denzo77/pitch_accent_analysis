@@ -42,6 +42,7 @@ def transpose_dict_of_lists(raw):
     
     return transpose
 
+
 VOWEL_PART = transpose_dict_of_lists(vowel_part_raw)
 ONSET = transpose_dict_of_lists(onset_raw)
 
