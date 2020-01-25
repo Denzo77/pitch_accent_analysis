@@ -1,5 +1,50 @@
 import pandas as pd
 
+# hiragana = 'がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんぁぃぅぇぉゃゅょっ'
+# katakana = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョッ'
+
+vowel_part_raw = {
+    'a':list('カサタナハマヤラワガザダバパァャ'),
+    'i':list('ギジヂビピイキシチニヒミモリィ'),
+    'u':list('グズヅブプウクスツヌフムユルゥュ'),
+    'e':list('ゲゼデベペエケセテネヘメレェ'),
+    'o':list('ゴゾドボポオコソトノホモヨロヲォョ'),
+}
+
+onset_raw = {
+    'a':list('ア'),
+    'i':list('イ'),
+    'u':list('ウ'),
+    'e':list('エ'),
+    'o':list('オ'),
+    'g':list('ガギグゲゴ'),
+    'z':list('ザジズゼゾ'),
+    'd':list('ダヂヅデド'),
+    'b':list('バビブベボ'),
+    'p':list('パピプペポ'),
+    'k':list('カキクケコ'),
+    's':list('サシスセソ'),
+    't':list('タチツテト'),
+    'n':list('ナニヌネノ'),
+    'h':list('ハヒフヘホ'),
+    'm':list('マミムメモ'),
+    'y':list('ヤユヨ'),
+    'r':list('ラリルレロ'),
+    'w':list('ワヲ'),
+    False :list('ンァィゥェォャュョッ'), # These should not exist as an onset.
+}
+
+def transpose_dict_of_lists(raw):
+    transpose = {}
+    for k, v in raw.items():
+        transpose.update({x: k for x in v})
+    
+    return transpose
+
+VOWEL_PART = transpose_dict_of_lists(vowel_part_raw)
+ONSET = transpose_dict_of_lists(onset_raw)
+
+
 def process_accent_data(in_file, columns):
     """ Read accent file, retain relevant columns and pad accent column with
     leading 0s.
