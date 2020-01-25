@@ -4,34 +4,35 @@ import pandas as pd
 # katakana = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョッ'
 
 vowel_part_raw = {
-    'a':list('カサタナハマヤラワガザダバパァャ'),
-    'i':list('ギジヂビピイキシチニヒミモリィ'),
-    'u':list('グズヅブプウクスツヌフムユルゥュ'),
-    'e':list('ゲゼデベペエケセテネヘメレェ'),
-    'o':list('ゴゾドボポオコソトノホモヨロヲォョ'),
+    'a': list('カサタナハアマヤラワガザダバパァャ'),
+    'i': list('ギジヂビピイキシチニヒミモリィ'),
+    'u': list('グズヅブプウクスツヌフムユルゥュ'),
+    'e': list('ゲゼデベペエケセテネヘメレェ'),
+    'o': list('ゴゾドボポオコソトノホモヨロヲォョ'),
+    False: list('ンッ')
 }
 
 onset_raw = {
-    'a':list('ア'),
-    'i':list('イ'),
-    'u':list('ウ'),
-    'e':list('エ'),
-    'o':list('オ'),
-    'g':list('ガギグゲゴ'),
-    'z':list('ザジズゼゾ'),
-    'd':list('ダヂヅデド'),
-    'b':list('バビブベボ'),
-    'p':list('パピプペポ'),
-    'k':list('カキクケコ'),
-    's':list('サシスセソ'),
-    't':list('タチツテト'),
-    'n':list('ナニヌネノ'),
-    'h':list('ハヒフヘホ'),
-    'm':list('マミムメモ'),
-    'y':list('ヤユヨ'),
-    'r':list('ラリルレロ'),
-    'w':list('ワヲ'),
-    False :list('ンァィゥェォャュョッ'), # These should not exist as an onset.
+    'a': list('ア'),
+    'i': list('イ'),
+    'u': list('ウ'),
+    'e': list('エ'),
+    'o': list('オ'),
+    'g': list('ガギグゲゴ'),
+    'z': list('ザジズゼゾ'),
+    'd': list('ダヂヅデド'),
+    'b': list('バビブベボ'),
+    'p': list('パピプペポ'),
+    'k': list('カキクケコ'),
+    's': list('サシスセソ'),
+    't': list('タチツテト'),
+    'n': list('ナニヌネノ'),
+    'h': list('ハヒフヘホ'),
+    'm': list('マミムメモ'),
+    'y': list('ヤユヨ'),
+    'r': list('ラリルレロ'),
+    'w': list('ワヲ'),
+    False: list('ンァィゥェォャュョッ'), # These should not exist as an onset.
 }
 
 def transpose_dict_of_lists(raw):
@@ -79,3 +80,11 @@ def process_accent_data(in_file, columns):
     # assert len(accent[accent.ac.str.startswith('1')]) == 0
 
     return accent
+
+
+def get_last_kana_info(df):
+    df['onset'] = df.midashigo_alt.apply(lambda x: ONSET[x[-1]])
+    df['is_vowel'] = df.onset.isin(set('aiueo'))
+    df['end_vowel'] = df.midashigo_alt.apply(lambda x: VOWEL_PART[x[-1]])
+
+    return df
