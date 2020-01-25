@@ -36,6 +36,16 @@ onset_raw = {
 }
 
 def transpose_dict_of_lists(raw):
+    """ 'Transpose' a dictionary of lists.
+
+    Takes a dictionary in form
+        `{'a':list('123'), 'b':list('456'),}`
+    and outputs it in form
+        `{'1':'a', '2':'a', '3':'a', '4':'b', '5':'b', '6':'b',}`
+
+    All individual elements within the lists of original dictionary must be
+    unique to prevent collisions.
+    """
     transpose = {}
     for k, v in raw.items():
         transpose.update({x: k for x in v})
@@ -84,6 +94,7 @@ def process_accent_data(in_file, columns):
 
 
 def get_last_kana_info(df):
+    """ Get the onset and vowel of each row in the dataframe. """
     df['onset'] = df.midashigo_alt.apply(lambda x: ONSET[x[-1]])
     df['is_vowel'] = df.onset.isin(set('aiueo'))
     df['end_vowel'] = df.midashigo_alt.apply(lambda x: VOWEL_PART[x[-1]])
