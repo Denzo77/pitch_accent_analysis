@@ -30,6 +30,7 @@ def process_accent_data(in_file, columns):
                                        axis=1))
 
     # This query shouldn't return any rows.
-    assert len(accent[accent.ac.str.len()!=accent.midashigo1.str.len()]) == 0
-    
+    assert len(accent[accent.ac.str.len() != accent.midashigo1.str.len()]) == 0
+    # assert len(accent[accent.ac.str.startswith('1')]) == 0
+
     return accent
