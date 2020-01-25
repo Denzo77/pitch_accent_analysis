@@ -26,7 +26,7 @@ def process_accent_data(in_file, columns):
     # - lambda x: "{:<0{width}}".format(x.ac, width=len(x.midashigo1))
     #     2.32 s ± 58.4 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
     accent.loc[index,'ac'] = (accent[index]
-                                .apply(lambda x: x.ac.ljust(len(x.midashigo1), '0'),
+                                .apply(lambda x: x.ac.rjust(len(x.midashigo1), '0'),
                                        axis=1))
 
     # This query shouldn't return any rows.
