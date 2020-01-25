@@ -1,0 +1,8 @@
+# Data files.
+data
+
+# Cached python files
+*.pyc
+
+# Cached jupyter files
+*checkpoint*
