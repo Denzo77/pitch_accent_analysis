@@ -94,10 +94,27 @@ def process_accent_data(in_file, columns):
 
 
 class Mora:
+    """ Class representing a single mora
+
+    Currently handles:
+    - All unigraphs.
+        - NOTE: Unigraphs are not checked to make sure they are in of the
+          correct character set.
+    - Word delimiter `・`
+    - Digraphs e.g. 'シャ'
+        - NOTE: Digraphs are not validated in any way.
+    
+    TODO: If necessary...
+    - Silent characters
+    - Soft 'G's
+    """
+    DELIMITER = '・'
     phoneme = None
     accent = None
 
     def __init__(self, phoneme, accent):
+        assert len(phoneme) > 0, "Mora must be at least one character in length.\n\tphoneme = {}".format(phoneme)
+        assert len(phoneme) <= 2, "Mora must not be more than 2 characters in length.\n\tphoneme = {}".format(phoneme)
         self.phoneme = phoneme
         self.accent = int(accent)
     
@@ -108,10 +125,15 @@ class Mora:
         return len(self.phoneme) == 2
     
     def is_delimiter(self):
-        return self.phoneme == '・'
+        return self.phoneme == self.DELIMITER
 
 
 def mora_split(word, accent):
+    """ Split a word into a list of phoneme-accent pairs, represented by a Mora
+    object.
+
+    word and accent should be of equal length, but this is unchecked.
+    """
     # FIXME: Maybe better to split into two lists before running the regex?
 
     # Split the string into mora the capture groups.
