@@ -133,6 +133,8 @@ def mora_split(word, accent):
     object.
 
     word and accent should be of equal length, but this is unchecked.
+
+    TODO: Replace 'ー' with correct vowel.
     """
     # FIXME: Maybe better to split into two lists before running the regex?
 
