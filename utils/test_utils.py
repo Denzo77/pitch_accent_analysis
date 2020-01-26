@@ -23,6 +23,8 @@ class TestKanaPhonemeExtraction():
     def test_pass_if_mora_split_works_on_digraphs(self):
         # word, accent, expected
         test_words = [
+            ("キョ", "12", [('キョ', 2)]),
+            ('シャ', "00", [('シャ', 0)]),
             ("アイコーシャ", "012000", [('ア',0), ('イ',1), ('コ',2), ('ー', 0), ('シャ',0)]),
             ("ゾーヒビョー", "011111", [('ゾ',0), ('ー',1), ('ヒ',1), ('ビョ',1), ('ー',1)]),
             # Synthetic example.

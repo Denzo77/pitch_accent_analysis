@@ -105,27 +105,31 @@ class Mora:
         - NOTE: Digraphs are not validated in any way.
     
     TODO: If necessary...
+    - Add pronunciation info here (replacing get_last_kana_info?)
     - Silent characters
     - Soft 'G's
     """
     DELIMITER = '・'
-    phoneme = None
+    kana = None
     accent = None
 
-    def __init__(self, phoneme, accent):
-        assert len(phoneme) > 0, "Mora must be at least one character in length.\n\tphoneme = {}".format(phoneme)
-        assert len(phoneme) <= 2, "Mora must not be more than 2 characters in length.\n\tphoneme = {}".format(phoneme)
-        self.phoneme = phoneme
+    def __init__(self, kana, accent):
+        assert len(kana) > 0, "Mora must be at least one character in length.\n\tkana = {}".format(kana)
+        assert len(kana) <= 2, "Mora must not be more than 2 characters in length.\n\tkana = {}".format(kana)
+        self.kana = kana
         self.accent = int(accent)
     
+    def __repr__(self):
+        return "M('{}', {})".format(self.kana, self.accent)
+    
     def get_pair(self):
-        return (self.phoneme, self.accent)
+        return (self.kana, self.accent)
 
     def is_digraph(self):
-        return len(self.phoneme) == 2
+        return len(self.kana) == 2
     
     def is_delimiter(self):
-        return self.phoneme == self.DELIMITER
+        return self.kana == self.DELIMITER
 
 
 def mora_split(word, accent):
@@ -141,8 +145,18 @@ def mora_split(word, accent):
     # Split the string into mora the capture groups.
     # First part matches all possible digraphs, the second matches any remaining chars
     result = re.finditer(r"(.[ァィゥェォャュョ]|.)", word)
+
+    def make_mora_from_regex(x):
+        """ Extract the mora and the correct accent pattern. """
+        char = x.group(0)
+        # The accent pattern we want corresponds to the *last* kana in the group.
+        # This means for digraphs we need to add one to the capture index.
+        index = x.start(0) if len(char) is 1 else x.start(0) + 1
+        acc = accent[index]
+        return Mora(char, acc)
+
     # Combine the mora and accents into tuples.
-    result = [Mora(x.group(0), accent[x.start(0)]) for x in result if x.group(0)]
+    result = [make_mora_from_regex(x) for x in result if x.group(0)]
 
     return result
 
