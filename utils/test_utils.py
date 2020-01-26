@@ -15,7 +15,7 @@ class TestKanaPhonemeExtraction():
             ("アイゾー", "0111", [('ア', 0), ('イ', 1), ('ゾ', 1), ('ー', 1)]),
         ]
         for word, accent, expected in test_words:
-            result = utils.mora_split(word, accent)
+            result = [x.get_pair() for x in utils.mora_split(word, accent)]
 
             assert result == expected
 
@@ -29,7 +29,7 @@ class TestKanaPhonemeExtraction():
             ("ゾーヒビョー", "011112", [('ゾ',0), ('ー',1), ('ヒ',1), ('ビョ',1), ('ー',2)]),
         ]
         for word, accent, expected in test_words:
-            result = utils.mora_split(word, accent)
+            result = [x.get_pair() for x in utils.mora_split(word, accent)]
 
             assert result == expected
 
@@ -41,7 +41,7 @@ class TestKanaPhonemeExtraction():
             ("ソクサイ・エンメイ", "011100111", [('ソ',0),('ク',1),('サ',1),('イ',1),('・',0),('エ',0),('ン',1),('メ',1),('イ',1)])
         ]
         for word, accent, expected in test_words:
-            result = utils.mora_split(word, accent)
+            result = [x.get_pair() for x in utils.mora_split(word, accent)]
 
             assert result == expected
 

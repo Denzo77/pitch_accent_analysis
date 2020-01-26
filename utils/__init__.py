@@ -93,6 +93,24 @@ def process_accent_data(in_file, columns):
     return accent
 
 
+class Mora:
+    phoneme = None
+    accent = None
+
+    def __init__(self, phoneme, accent):
+        self.phoneme = phoneme
+        self.accent = int(accent)
+    
+    def get_pair(self):
+        return (self.phoneme, self.accent)
+
+    def is_digraph(self):
+        return len(self.phoneme) == 2
+    
+    def is_delimiter(self):
+        return self.phoneme == '・'
+
+
 def mora_split(word, accent):
     # FIXME: Maybe better to split into two lists before running the regex?
 
@@ -100,7 +118,7 @@ def mora_split(word, accent):
     # First part matches all possible digraphs, the second matches any remaining chars
     result = re.finditer(r"(.[ァィゥェォャュョ]|.)", word)
     # Combine the mora and accents into tuples.
-    result = [(x.group(0), int(accent[x.start(0)])) for x in result if x.group(0)]
+    result = [Mora(x.group(0), accent[x.start(0)]) for x in result if x.group(0)]
 
     return result
 
