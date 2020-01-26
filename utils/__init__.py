@@ -1,5 +1,5 @@
 import pandas as pd
-
+import re
 # hiragana = 'がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんぁぃぅぇぉゃゅょっ'
 # katakana = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョッ'
 
@@ -91,6 +91,18 @@ def process_accent_data(in_file, columns):
     # assert len(accent[accent.ac.str.startswith('1')]) == 0
 
     return accent
+
+
+def mora_split(word, accent):
+    # FIXME: Maybe better to split into two lists before running the regex?
+
+    # Split the string into mora the capture groups.
+    # First part matches all possible digraphs, the second matches any remaining chars
+    result = re.finditer(r"(.[ァィゥェォャュョ]|.)", word)
+    # Combine the mora and accents into tuples.
+    result = [(x.group(0), int(accent[x.start(0)])) for x in result if x.group(0)]
+
+    return result
 
 
 def get_last_kana_info(df):
