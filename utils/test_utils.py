@@ -5,8 +5,13 @@ import utils
 
 class TestKanaPhonemeExtraction():
     katakana = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョッ'
-    # unigraphs = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンッ'
-    # digraph_endings = 'ァィゥェォャュョ'
+    unigraphs = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンッ'
+
+    # Use linear combinations to generate all possible digraphs.
+    digraphs = [
+        "".join((x, y)) 
+        for x in 'ギジヂビピキシチニヒミリ'  # diagraph_beginings
+        for y in 'ァィゥェォャュョ']  # digraph_endings
 
 
     def test_pass_if_mora_split_works_on_unigraphs(self):
@@ -57,11 +62,17 @@ class TestKanaPhonemeExtraction():
         assert result == expected
 
 
-
-    def test_pass_if_get_last_kana_info_works_with_all_kana(self):
-
+    def test_pass_if_get_last_mora_info_works_with_all_unigraphs(self):
         df = pd.DataFrame({
-            'midashigo_alt': list(self.katakana),
+            'mora': [[utils.Mora(x, 0)] for x in self.unigraphs],
         })
-        utils.get_last_kana_info(df)
 
+        utils.get_last_mora_info(df)
+
+
+    def test_pass_if_get_last_mora_info_works_with_all_digraphs(self):
+        df = pd.DataFrame({
+            'mora': [[utils.Mora(x, 0)] for x in self.digraphs],
+        })
+        
+        utils.get_last_mora_info(df)

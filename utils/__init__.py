@@ -161,10 +161,10 @@ def mora_split(word, accent):
     return result
 
 
-def get_last_kana_info(df):
-    """ Get the onset and vowel of each row in the dataframe. """
-    df['onset'] = df.midashigo_alt.apply(lambda x: ONSET[x[-1]])
+def get_last_mora_info(df):
+    """ Get the onset and vowel of the last mora for each row in the dataframe. """
+    df['onset'] = df.mora.apply(lambda x: ONSET[x[-1].kana[0]])
     df['is_vowel'] = df.onset.isin(set('aiueo'))
-    df['end_vowel'] = df.midashigo_alt.apply(lambda x: VOWEL_PART[x[-1]])
+    df['end_vowel'] = df.mora.apply(lambda x: VOWEL_PART[x[-1].kana[-1]])
 
     return df
