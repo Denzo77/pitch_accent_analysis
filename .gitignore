@@ -1,8 +1,12 @@
 # Data files.
 data
 
+# VS Code stuff
+.vscode
+
 # Cached python files
 *.pyc
+.pytest_cache
 
 # Cached jupyter files
 *checkpoint*
