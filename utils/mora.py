@@ -84,6 +84,9 @@ class Mora:
     
     def __repr__(self):
         return "M('{}', {})".format(self.kana, self.accent)
+
+    def __eq__(self, other):
+        return (self.kana == other.kana) and (self.accent == other.accent)
     
     def get_pair(self):
         return (self.kana, self.accent)

@@ -9,7 +9,7 @@ def check_mora_pitch_pairs(test_words):
 
         assert result == expected
 
-class TestKanaPhonemeExtraction():
+class TestKanaPhonemeExtraction:
     katakana = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョッ'
     unigraphs = 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンッ'
 
