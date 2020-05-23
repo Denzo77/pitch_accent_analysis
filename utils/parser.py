@@ -115,3 +115,17 @@ def read_and_process_accent_file(accent_file, columns=USEFUL_COLUMNS):
     df = dedup_and_split_all_mora(df)
 
     return df
+
+
+def generate_single_mora_words_file(accent_file, out_path="data/single_mora_words.pickle"):
+    df = read_and_process_accent_file(accent_file)
+
+    # Isolate single mora words
+    df.loc[df.mora.str.len() == 1, [
+        'word_id',
+        'sem_word_id',
+        'word',
+        'kanji',
+        'n_accents',
+        'mora'
+    ]].reset_index().drop(columns='index').to_pickle(out_path)
